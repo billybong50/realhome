@@ -15,7 +15,7 @@
         .container { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            grid-template-rows: 1fr 1fr 1fr 1fr; /* Increased rows to accommodate the split */
+            grid-template-rows: 1fr 1fr 1fr 1fr;
             height: 100vh; 
             width: 100vw; 
             gap: 15px; 
@@ -29,7 +29,6 @@
         
         .proxies-btn { grid-column: 2; grid-row: 1 / span 2; background: linear-gradient(225deg, #ff4b2b, #ff416c); border-radius: 15px 40px 15px 40px; font-size: 3.5vw; }
 
-        /* Split Movies and Tools */
         .movies-btn { grid-column: 1; grid-row: 3; background: linear-gradient(135deg, #7928ca, #ff0080); border-radius: 40px 15px 10px 15px; }
         .tools-btn { grid-column: 1; grid-row: 4; background: linear-gradient(225deg, #9b4dff, #6a11cb); border-radius: 10px 15px 40px 15px; }
 
@@ -54,31 +53,30 @@
     <div class="panic-banner"> Don't forget! This site uses an about:blank cloak, making it invisible to Blocksi. You're safe to play even if teachers are watching.</div>
     
     <div class="container">
-        <button class="nav-btn games-main-btn" onclick="launch('Grades and Attendance', 'https://gamesybaf.onrender.com', 'https://realhome-74e.pages.dev/powerschool.png', false)">
+        <button class="nav-btn games-main-btn" onclick="launch('Grades and Attendance', 'https://gamesybaf.onrender.com', 'https://realhome-74e.pages.dev/powerschool.png')">
             <span>Main Games</span>
         </button>
 
-        <button class="nav-btn games-req-btn" onclick="launch('Home - Classroom', 'https://requested-games.onrender.com', 'newhometesting.pages.dev/classroom.png', false)">
+        <button class="nav-btn games-req-btn" onclick="launch('Home - Classroom', 'https://requested-games.onrender.com', 'newhometesting.pages.dev/classroom.png')">
             <span>Requested Games<br><span class="sub-text">Games In News, Game Websites</span></span>
         </button>
 
-        <button class="nav-btn proxies-btn" onclick="launch('Home - Lewis Middle', 'https://prxs-2ftx.onrender.com/', 'newhometesting.pages.dev/lewis.png', false)">
+        <button class="nav-btn proxies-btn" onclick="launch('Home - Lewis Middle', 'https://prxs-2ftx.onrender.com/', 'newhometesting.pages.dev/lewis.png')">
             <span>Proxies</span>
         </button>
 
-        <!-- Split Buttons -->
-        <button class="nav-btn movies-btn" onclick="launch('Movies', 'https://movies-2why.onrender.com', 'newhometesting.pages.dev/googledrive.png', false)">
+        <button class="nav-btn movies-btn" onclick="launch('Movies', 'https://movies-2why.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
             <span>Movies</span>
         </button>
 
-        <button class="nav-btn tools-btn" onclick="launch('Tools', 'https://movies-tools.onrender.com', 'newhometesting.pages.dev/googledrive.png', false)">
+        <button class="nav-btn tools-btn" onclick="launch('Tools', 'https://movies-tools.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
             <span>Tools</span>
         </button>
 
         <div class="nav-btn news-btn">
             <div class="news-header"> 
                 NEWS (<a href="https://forms.gle/1PK3AMXTvXjHnrdq8" target="_blank" rel="noopener noreferrer">REQUEST FORM</a>) | 
-                <a href="javascript:void(0)" onclick="launch('Credits - Google Docs', 'https://credits-7oi.pages.dev.', 'https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_document_x16.png', true)" style="color: #7928ca; text-decoration: underline;">CREDITS</a> 
+                <a href="javascript:void(0)" onclick="launch('Credits - Google Docs', 'https://credits-7oi.pages.dev.', 'https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_document_x16.png')" style="color: #7928ca; text-decoration: underline;">CREDITS</a> 
             </div>
             <div class="news-scroll-area">
                 <div class="news-text">
@@ -90,7 +88,7 @@
     </div>
 
     <script>
-        function launch(disguiseTitle, url, favicon, inNewTab) {
+        function launch(disguiseTitle, url, favicon) {
             const content = `
             <!DOCTYPE html>
             <html>
@@ -103,7 +101,7 @@
                 </style>
             </head>
             <body>
-                <iframe src="${url}"></iframe>
+                <iframe src="${url}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads allow-pointer-lock"></iframe>
                 <script>
                     window.addEventListener('keydown', function(e) {
                         if (e.key.toLowerCase() === 'q') {
@@ -114,17 +112,13 @@
             </body>
             </html>`;
 
-            if (inNewTab) {
-                const newWin = window.open('about:blank', '_blank');
-                if (newWin) {
-                    newWin.document.open();
-                    newWin.document.write(content);
-                    newWin.document.close();
-                }
+            const newWin = window.open('about:blank', '_blank');
+            if (newWin) {
+                newWin.document.open();
+                newWin.document.write(content);
+                newWin.document.close();
             } else {
-                document.open();
-                document.write(content);
-                document.close();
+                alert('Popup blocked! Please allow popups for this site.');
             }
         }
 
