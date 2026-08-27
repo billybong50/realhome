@@ -52,26 +52,54 @@
 <body>
     <div class="panic-banner"> Don't forget! This site uses an about:blank cloak, making it invisible to Blocksi. You're safe to play even if teachers are watching.</div>
     
-    <div class="container">
-        <button class="nav-btn games-main-btn" onclick="launch('Grades and Attendance', 'https://gamesybaf.onrender.com', 'https://realhome-74e.pages.dev/powerschool.png')">
-            <span>Main Games</span>
-        </button>
+ <div class="container">
+    <button class="nav-btn games-main-btn" onclick="openInBlank('Grades and Attendance', 'https://billybong50.github.io/things/', 'https://realhome-74e.pages.dev/powerschool.png')">
+        <span>Main Games</span>
+    </button>
 
-        <button class="nav-btn games-req-btn" onclick="launch('Home - Classroom', 'https://requested-games.onrender.com', 'newhometesting.pages.dev/classroom.png')">
-            <span>Requested Games<br><span class="sub-text">Games In News, Game Websites</span></span>
-        </button>
+    <button class="nav-btn games-req-btn" onclick="openInBlank('Home - Classroom', 'https://requested-games.onrender.com', 'newhometesting.pages.dev/classroom.png')">
+        <span>Requested Games<br><span class="sub-text">Games In News, Game Websites</span></span>
+    </button>
 
-        <button class="nav-btn proxies-btn" onclick="launch('Home - Lewis Middle', 'https://proxys-wj2l.onrender.com/', 'newhometesting.pages.dev/lewis.png')">
-            <span>Proxies</span>
-        </button>
+    <button class="nav-btn proxies-btn" onclick="openInBlank('Home - Lewis Middle', 'https://doxyedu-web-proxy-uupe.onrender.com/', 'newhometesting.pages.dev/lewis.png')">
+        <span>Scramjet</span>
+    </button>
 
-        <button class="nav-btn movies-btn" onclick="launch('Movies', 'https://movies-2why.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
-            <span>Movies</span>
-        </button>
+    <button class="nav-btn movies-btn" onclick="openInBlank('Movies', 'https://billybong50.github.io/cloaker/', 'newhometesting.pages.dev/googledrive.png')">
+        <span>About:Blank Cloaker</span>
+    </button>
 
-        <button class="nav-btn tools-btn" onclick="launch('Tools', 'https://movies-tools.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
-            <span>Tools</span>
-        </button>
+    <button class="nav-btn tools-btn" onclick="openInBlank('Tools', 'https://movies-tools.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
+        <span>Tools</span>
+    </button>
+</div>
+
+<script>
+    function openInBlank(title, url, imgSrc) {
+        // 1. Open the target URL in a new window
+        const newWindow = window.open(url, '_blank');
+        
+        // 2. Wait for the new window to load (or at least start loading)
+        if (newWindow) {
+            // We inject some simple HTML into the new window to hide the address bar and look like a blank page
+            // This helps bypass some simple tab-detection scripts
+            newWindow.document.write(`
+                <html>
+                    <head><title>${title}</title></head>
+                    <body style="margin:0; padding:0; overflow:hidden;">
+                        <iframe src="${url}" style="width:100vw; height:100vh; border:none;"></iframe>
+                    </body>
+                </html>
+            `);
+            
+            // 3. Close the original tab immediately to simulate About:Blank
+            window.close();
+        } else {
+            // Fallback if popup is blocked: just open normally
+            window.open(url, '_blank');
+        }
+    }
+</script>
 
         <div class="nav-btn news-btn">
             <div class="news-header"> 
