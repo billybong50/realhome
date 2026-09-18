@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>testing</title>
+       <!-- Anti-Framing / Frame-Busting Protection -->
+    <style id="antiClickjack">
+        /* Hide page if loaded inside an iframe */
+        body { display: none !important; }
+    </style>
+    <script>
+        // Check if the current window is inside an iframe
+        if (window.top === window.self) {
+            // Not in an iframe: show the page
+            document.documentElement.style.display = 'block';
+            document.addEventListener('DOMContentLoaded', () => {
+                const antiClickjack = document.getElementById('antiClickjack');
+                if (antiClickjack) antiClickjack.parentNode.removeChild(antiClickjack);
+            });
+        } else {
+            // Inside an iframe: break out
+            window.top.location = window.self.location;
+        }
+    </script>
     <link rel="icon" type="image/png" href="https://schoolissuperfun.github.io/logo.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
