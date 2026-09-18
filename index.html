@@ -1,28 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>testing</title>
-       <!-- Anti-Framing / Frame-Busting Protection -->
+
+    <!-- Anti-Framing Protection (Whitelist Enabled) -->
     <style id="antiClickjack">
-        /* Hide page if loaded inside an iframe */
+        /* Hide page by default until origin check passes */
         body { display: none !important; }
     </style>
     <script>
-        // Check if the current window is inside an iframe
-        if (window.top === window.self) {
-            // Not in an iframe: show the page
-            document.documentElement.style.display = 'block';
+        const ALLOWED_EMBED_ORIGIN = "https://billybong50.github.io/billybong50/";
+
+        function showPage() {
             document.addEventListener('DOMContentLoaded', () => {
                 const antiClickjack = document.getElementById('antiClickjack');
-                if (antiClickjack) antiClickjack.parentNode.removeChild(antiClickjack);
+                if (antiClickjack && antiClickjack.parentNode) {
+                    antiClickjack.parentNode.removeChild(antiClickjack);
+                }
             });
+        }
+
+        // 1. If not in an iframe (opened directly), show page
+        if (window.top === window.self) {
+            showPage();
         } else {
-            // Inside an iframe: break out
-            window.top.location = window.self.location;
+            // 2. If inside an iframe, check if the parent domain matches the whitelist
+            if (document.referrer && document.referrer.startsWith(ALLOWED_EMBED_ORIGIN)) {
+                showPage();
+            } else {
+                // 3. Unauthorized iframe: break out of the frame
+                try {
+                    window.top.location = window.self.location.href;
+                } catch (e) {
+                    // Stays hidden via CSS if top redirect is blocked by sandbox attributes
+                }
+            }
         }
     </script>
+
     <link rel="icon" type="image/png" href="https://schoolissuperfun.github.io/logo.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,75 +89,47 @@
 <body>
     <div class="panic-banner"> Don't forget! This site uses an about:blank cloak, making it invisible to Blocksi. You're safe to play even if teachers are watching.</div>
     
- <div class="container">
-    <button class="nav-btn games-main-btn" onclick="openInBlank('Grades and Attendance', 'https://billybong50.github.io/mythings/', 'https://realhome-74e.pages.dev/powerschool.png')">
-        <span>Main Games</span>
-    </button>
+    <div class="container">
+        <button class="nav-btn games-main-btn" onclick="openInBlank('Grades and Attendance', 'https://billybong50.github.io/mythings/', 'https://realhome-74e.pages.dev/powerschool.png')">
+            <span>Main Games</span>
+        </button>
 
-    <button class="nav-btn games-req-btn" onclick="openInBlank('Home - Classroom', 'https://billybong50.github.io/requested', 'newhometesting.pages.dev/classroom.png')">
-        <span>Requested Games<br><span class="sub-text">Games In News, Game Websites</span></span>
-    </button>
+        <button class="nav-btn games-req-btn" onclick="openInBlank('Home - Classroom', 'https://billybong50.github.io/requested', 'https://newhometesting.pages.dev/classroom.png')">
+            <span>Requested Games<br><span class="sub-text">Games In News, Game Websites</span></span>
+        </button>
 
-    <button class="nav-btn proxies-btn" onclick="openInBlank('Home - Lewis Middle', 'https://doxyedu-web-proxy-uupe.onrender.com/', 'newhometesting.pages.dev/lewis.png')">
-        <span>Scramjet</span>
-    </button>
+        <button class="nav-btn proxies-btn" onclick="openInBlank('Home - Lewis Middle', 'https://doxyedu-web-proxy-uupe.onrender.com/', 'https://newhometesting.pages.dev/lewis.png')">
+            <span>Scramjet</span>
+        </button>
 
-    <button class="nav-btn movies-btn" onclick="openInBlank('Movies', 'https://billybong50.github.io/cloaker/', 'newhometesting.pages.dev/googledrive.png')">
-        <span>About:Blank Cloaker</span>
-    </button>
+        <button class="nav-btn movies-btn" onclick="openInBlank('Movies', 'https://billybong50.github.io/cloaker/', 'https://newhometesting.pages.dev/googledrive.png')">
+            <span>About:Blank Cloaker</span>
+        </button>
 
-    <button class="nav-btn tools-btn" onclick="openInBlank('Tools', 'https://movies-tools.onrender.com', 'newhometesting.pages.dev/googledrive.png')">
-        <span>Tools</span>
-    </button>
-</div>
-
-<script>
-    function openInBlank(title, url, imgSrc) {
-        // 1. Open the target URL in a new window
-        const newWindow = window.open(url, '_blank');
-        
-        // 2. Wait for the new window to load (or at least start loading)
-        if (newWindow) {
-            // We inject some simple HTML into the new window to hide the address bar and look like a blank page
-            // This helps bypass some simple tab-detection scripts
-            newWindow.document.write(`
-                <html>
-                    <head><title>${title}</title></head>
-                    <body style="margin:0; padding:0; overflow:hidden;">
-                        <iframe src="${url}" style="width:100vw; height:100vh; border:none;"></iframe>
-                    </body>
-                </html>
-            `);
-            
-            // 3. Close the original tab immediately to simulate About:Blank
-            window.close();
-        } else {
-            // Fallback if popup is blocked: just open normally
-            window.open(url, '_blank');
-        }
-    }
-</script>
+        <button class="nav-btn tools-btn" onclick="openInBlank('Tools', 'https://movies-tools.onrender.com', 'https://newhometesting.pages.dev/googledrive.png')">
+            <span>Tools</span>
+        </button>
 
         <div class="nav-btn news-btn">
             <div class="news-header"> 
                 NEWS (<a href="https://forms.gle/1PK3AMXTvXjHnrdq8" target="_blank" rel="noopener noreferrer">REQUEST FORM</a>) | 
-                <a href="javascript:void(0)" onclick="launch('Credits - Google Docs', 'https://credits-7oi.pages.dev.', 'https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_document_x16.png')" style="color: #7928ca; text-decoration: underline;">CREDITS</a> 
+                <a href="javascript:void(0)" onclick="openInBlank('Credits - Google Docs', 'https://credits-7oi.pages.dev', 'https://ssl.gstatic.com/docs/doclist/images/mediatype/icon_1_document_x16.png')" style="color: #7928ca; text-decoration: underline;">CREDITS</a> 
             </div>
             <div class="news-scroll-area">
                 <div class="news-text">
-                    8/20:<br>Guys all github.io sites are unblocked the only reason yous should use this site is for scramjet or the about:balnk cloaker or maybe you just have really big balls<br>
+                    8/20:<br>Guys all github.io sites are unblocked the only reason you should use this site is for scramjet or the about:blank cloaker.<br>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function launch(disguiseTitle, url, favicon) {
+        function openInBlank(title, url, favicon) {
             const content = `
             <!DOCTYPE html>
             <html>
             <head>
-                <title>${disguiseTitle}</title>
+                <title>${title}</title>
                 <link rel="icon" type="image/png" href="${favicon}">
                 <style>
                     body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
@@ -168,6 +158,7 @@
             }
         }
 
+        // Panic key listener for the main page
         window.addEventListener('keydown', function(e) {
             if (e.key.toLowerCase() === 'q') {
                 window.location.href = 'https://classroom.google.com';
