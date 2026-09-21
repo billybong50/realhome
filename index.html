@@ -12,8 +12,10 @@
         body { display: none !important; }
     </style>
     <script>
-        const ALLOWED_EMBED_ORIGIN = "https://billybong50.github.io/billybong50/";
-        const ALLOWED_EMBED_ORIGIN = "blob:https://billybong50.github.io";
+        const ALLOWED_ORIGIN_PREFIXES = [
+            "https://billybong50.github.io/billybong50/",
+            "blob:https://billybong50.github.io/"
+        ];
 
         function showPage() {
             document.addEventListener('DOMContentLoaded', () => {
@@ -28,8 +30,12 @@
         if (window.top === window.self) {
             showPage();
         } else {
-            // 2. If inside an iframe, check if the parent domain matches the whitelist
-            if (document.referrer && document.referrer.startsWith(ALLOWED_EMBED_ORIGIN)) {
+            // 2. If inside an iframe, check if the parent domain matches any allowed prefix
+            const isAllowed = ALLOWED_ORIGIN_PREFIXES.some(prefix => 
+                document.referrer && document.referrer.startsWith(prefix)
+            );
+
+            if (isAllowed) {
                 showPage();
             } else {
                 // 3. Unauthorized iframe: break out of the frame
